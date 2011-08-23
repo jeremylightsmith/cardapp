@@ -10,6 +10,7 @@ gem "sass"
 gem 'hoptoad_notifier'
 gem 'rest-client'
 gem 'nokogiri'
+gem 'dalli'
 
 group :development, :test do
   gem "heroku"

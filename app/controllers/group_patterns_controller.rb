@@ -3,7 +3,7 @@ require 'open-uri'
 
 class GroupPatternsController < ApplicationController
   def index
-    render :json => parse(open("http://grouppatternlanguage.org/wagn/Info_appearing_on_each_card?layout=none&view=content"))
+    render :json => parse(get_page("http://grouppatternlanguage.org/wagn/Info_appearing_on_each_card?layout=none&view=content"))
   end
   
   def show
@@ -22,7 +22,21 @@ class GroupPatternsController < ApplicationController
       }
     end
   end
-  
+
+  def get_page(url)
+    html = Rails.cache.read(url)
+    unless html
+      begin
+        html = open(url)
+        Rails.cache.write(["last", url].join("."), html, :expires_in => 1.day)
+      rescue
+        html = Rails.cache.read(["last", url].join("."))
+      end
+      Rails.cache.write(url, html, :expires_in => 1.hour)
+    end
+    html
+  end
+    
   protected
   
   def clean(html) 
