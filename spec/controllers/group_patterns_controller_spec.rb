@@ -30,7 +30,7 @@ describe GroupPatternsController do
     it "should try to get page and save it on cache miss" do
       @cache.stub!(:read).with("a url").and_return(nil)
       @cache.should_receive(:write).with("a url", "some html", :expires_in => 1.hour)
-      @cache.should_receive(:write).with("last.a url", "some html", :expires_in => 1.day)
+      @cache.should_receive(:write).with("last.a url", "some html", :expires_in => 1.month)
       controller.should_receive(:open).with("a url").and_return("some html")
       
       controller.get_page("a url").should == "some html"

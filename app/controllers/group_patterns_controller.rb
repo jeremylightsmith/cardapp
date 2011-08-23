@@ -28,7 +28,7 @@ class GroupPatternsController < ApplicationController
     unless html
       begin
         html = open(url)
-        Rails.cache.write(["last", url].join("."), html, :expires_in => 1.day)
+        Rails.cache.write(["last", url].join("."), html, :expires_in => 1.month)
       rescue
         html = Rails.cache.read(["last", url].join("."))
       end
