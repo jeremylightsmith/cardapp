@@ -3,7 +3,7 @@ require 'open-uri'
 
 class GroupPatternsController < ApplicationController
   def index
-    render :json => parse(open("http://grouppatternlanguage.org/wagn/Pattern_Hearts_and_Pics_by_Name?layout=none&view=content"))
+    render :json => parse(open("http://grouppatternlanguage.org/wagn/Info_appearing_on_each_card?layout=none&view=content"))
   end
   
   def show
