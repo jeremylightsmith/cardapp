@@ -12,12 +12,20 @@ class GroupPatternsController < ApplicationController
   def parse(html)
     doc = Nokogiri::HTML(html)
     
-    doc.css(".RIGHT-medium_pic_and_heart").map do |item|
+    doc.css(".item-naked").map do |item|
       {
         "name" => item.at_css(".known-card").content,
         "pic" => item.at_css("img").attribute("src").value,
-        "heart" => item.at_css(".RIGHT-heart").content
+        "heart" => clean(item.at_css(".RIGHT-heart").content),
+        "category" => item.at_css(".RIGHT-category .item-name").content,
+        "related" => item.css(".RIGHT-related_pattern_printed_on_card .known-card").map(&:content)
       }
     end
+  end
+  
+  protected
+  
+  def clean(html) 
+    html.gsub("&nbsp;", " ")
   end
 end
