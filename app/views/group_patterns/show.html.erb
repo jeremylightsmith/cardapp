@@ -1,0 +1,14 @@
+<script type="text/javascript" charset="utf-8">
+$(function() {
+  $("textarea").load("<%= group_patterns_path %>.json")
+})
+</script>
+
+<h1>Group Patterns</h1>
+
+<p>Data comes from <%= link_to "here", GroupPatternsController::URL %></p>
+<p><%= link_to "refresh", group_patterns_path, :method => :put %></p>
+
+<textarea style="width: 100%; height: 500px;">
+  Loading, this could take a while...
+</textarea>

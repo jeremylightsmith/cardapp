@@ -2,11 +2,22 @@ require 'nokogiri'
 require 'open-uri'
 
 class GroupPatternsController < ApplicationController
-  def index
-    render :json => parse(get_page("http://grouppatternlanguage.org/wagn/Info_appearing_on_each_card?layout=none&view=content"))
-  end
+  URL = "http://grouppatternlanguage.org/wagn/Info_appearing_on_each_card?layout=none&view=content"
   
   def show
+    respond_to do |wants|
+      wants.html
+      wants.json { render :json => parse(get_page(URL)) }
+    end
+  end
+  
+  def update
+    cache
+    redirect_to group_patterns_path
+  end
+  
+  def cache
+    Rails.cache.write(URL, open(URL).read)
   end
   
   def parse(html)
@@ -27,7 +38,7 @@ class GroupPatternsController < ApplicationController
     html = Rails.cache.read(url)
     unless html
       begin
-        html = open(url)
+        html = open(url).read
         Rails.cache.write(["last", url].join("."), html, :expires_in => 1.month)
       rescue
         html = Rails.cache.read(["last", url].join("."))

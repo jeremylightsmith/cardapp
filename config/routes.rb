@@ -1,3 +1,5 @@
 Cardapp::Application.routes.draw do
-  resources :group_patterns
+  root :to => "group_patterns#show"
+  
+  resource :group_patterns
 end
